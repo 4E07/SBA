@@ -1,0 +1,23 @@
+program count_words;
+
+uses SysUtils;
+
+var
+  A: TStringArray;
+  inputStr, word: string;
+  count: integer;
+
+begin
+  count := 0;
+  writeln('Input a writing: ');
+  readln(inputStr);
+  A := inputStr.Split(' ');
+
+  for word in A do
+  begin
+    count := count + 1;
+  end;
+
+  writeln('Total words of the writing:', count);
+  Readln;
+end.
