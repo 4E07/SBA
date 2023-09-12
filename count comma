@@ -1,0 +1,35 @@
+program project1;
+
+uses
+  SysUtils;
+
+var
+  inputStr: string;
+  comma: integer;
+  i: integer;
+
+begin
+  comma := 0;
+  Writeln('Input a passage: ');
+  Readln(inputStr);
+
+  for i := 1 to Length(inputStr) do
+  begin
+    if (inputStr[i] = ',') then
+      comma := comma +1;
+   end;
+
+
+  if comma >= 2 then
+    begin
+         Writeln('Number of comma in the passage: ', comma);
+         Writeln ('There is too much comma!');
+    end;
+
+
+
+
+
+  Readln;
+end.
+                                                   
