@@ -1,0 +1,24 @@
+program count_sentences;
+
+uses
+  SysUtils;
+
+var
+  inputStr: string;
+  sentenceCount: integer;
+  i: integer;
+
+begin
+  sentenceCount := 0;
+  Writeln('Input a passage: ');
+  Readln(inputStr);
+
+  for i := 1 to Length(inputStr) do
+  begin
+    if (inputStr[i] = '.') or (inputStr[i] = '!') or (inputStr[i] = '?') then
+      sentenceCount := sentenceCount + 1;
+  end;
+
+  Writeln('Number of sentences in the passage: ', sentenceCount);
+  Readln;
+end.                                          
