@@ -1,0 +1,65 @@
+program project3;
+
+uses
+  SysUtils;
+
+var
+  A: TStringArray;
+  inputStr: string;
+  nouns: array of string;
+  i: Integer;
+
+const
+  NounDictionary: array [1..10] of string = (
+    'I',
+    'You',
+    'We',
+    'They',
+    'Our'
+  );
+
+function IsNoun(word: string): Boolean;
+var
+  i: Integer;
+begin
+  for i := 1 to Length(NounDictionary) do
+  begin
+    if NounDictionary[i] = word then
+    begin
+      Result := True;
+      Exit;
+    end;
+  end;
+
+  Result := False;
+end;
+
+function HasPlural(word: string): Boolean;
+begin
+  Result := False;
+  if word <> '' then
+    Result := word[Length(word)] = 's';
+end;
+
+begin
+  Writeln('Input a passage:');
+  Readln(inputStr);
+  A := inputStr.Split([' ']);
+
+  // Identify nouns
+  for i := 0 to Length(A) - 1 do
+  begin
+    if IsNoun(A[i]) and not HasPlural(A[i]) then
+    begin
+      // Store the noun
+      SetLength(nouns, Length(nouns) + 1);
+      nouns[Length(nouns) - 1] := A[i];
+    end;
+  end;
+
+  // Output the identified nouns
+  for i := 0 to Length(nouns) - 1 do
+  begin
+    WriteLn(nouns[i]);
+  end;
+end.                       
