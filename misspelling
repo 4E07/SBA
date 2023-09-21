@@ -1,0 +1,70 @@
+program project4;
+
+uses
+  SysUtils, StrUtils;
+
+type
+  TStringArray = array of string;
+
+function CheckSpelling(const inputText: string): TStringArray;
+var
+  dictionary: TextFile;
+  word: string;
+  words: TStringArray;
+  misspelledWords: TStringArray;
+  dictionaryWord: string;
+begin
+  Assign(dictionary, 'desktop:dictionary.txt'); // Replace 'dictionary.txt' with the path to your dictionary file
+  Reset(dictionary);
+  SetLength(words, 0);
+  SetLength(misspelledWords, 0);
+
+  // Split the input text into individual words
+  words := SplitString(inputText, ' ');
+
+  // Check each word for spelling mistakes
+  for word in words do
+  begin
+    Reset(dictionary); // Reset the dictionary to the beginning for each word
+
+    while not EOF(dictionary) do
+    begin
+      ReadLn(dictionary, dictionaryWord);
+      if AnsiCompareText(dictionaryWord, word) = 0 then
+        Break;
+    end;
+
+    if EOF(dictionary) then
+    begin
+      SetLength(misspelledWords, Length(misspelledWords) + 1);
+      misspelledWords[High(misspelledWords)] := word;
+    end;
+  end;
+
+  CloseFile(dictionary);
+
+  Result := misspelledWords;
+end;
+
+var
+  userInput: string;
+  misspelled: TStringArray;
+  word: string;
+begin
+  Write('Enter some text: ');
+  ReadLn(userInput);
+
+  // Check spelling
+  misspelled := CheckSpelling(userInput);
+
+  if Length(misspelled) > 0 then
+  begin
+    Writeln('Misspelled words:');
+    for word in misspelled do
+      Writeln(word);
+  end
+  else
+    Writeln('No spelling mistakes found.');
+
+  ReadLn;
+end.                                                     
