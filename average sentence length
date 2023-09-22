@@ -1,0 +1,32 @@
+program WordStatistics;
+
+uses
+  SysUtils, StrUtils;
+
+function CalculateWordStats(const Text: string): string;
+var
+  Words: TStringDynArray;
+  TotalWords, NumSentences: Integer;
+  AverageWordsPerSentence: Double;
+begin
+  // Count the total number of words
+  Words := SplitString(Text, [' ']);
+  TotalWords := Length(Words);
+
+  // Count the number of sentences
+  NumSentences := Length(SplitString(Text, ['.', '!', '?']));
+
+  // Calculate the average number of words per sentence
+  AverageWordsPerSentence := TotalWords / NumSentences;
+
+  Result := Format('Total words: %d' + sLineBreak +
+                   'Average words per sentence: %.2f', [TotalWords, AverageWordsPerSentence]);
+end;
+
+var
+  Text: string;
+begin
+  // Example usage
+  Text := 'This is a sample sentence. And another one!';
+  WriteLn(CalculateWordStats(Text));
+end.
