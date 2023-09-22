@@ -14,18 +14,16 @@ var
   misspelledWords: TStringArray;
   dictionaryWord: string;
 begin
-  Assign(dictionary, 'desktop:dictionary.txt'); // Replace 'dictionary.txt' with the path to your dictionary file
+  Assign(dictionary, 'desktop:dictionary.txt'); 
   Reset(dictionary);
   SetLength(words, 0);
   SetLength(misspelledWords, 0);
 
-  // Split the input text into individual words
   words := SplitString(inputText, ' ');
 
-  // Check each word for spelling mistakes
   for word in words do
   begin
-    Reset(dictionary); // Reset the dictionary to the beginning for each word
+    Reset(dictionary); 
 
     while not EOF(dictionary) do
     begin
@@ -54,7 +52,6 @@ begin
   Write('Enter some text: ');
   ReadLn(userInput);
 
-  // Check spelling
   misspelled := CheckSpelling(userInput);
 
   if Length(misspelled) > 0 then
