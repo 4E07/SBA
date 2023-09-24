@@ -1,32 +1,50 @@
-program WordStatistics;
+program sentence;
 
 uses
   SysUtils, StrUtils;
 
 function CalculateWordStats(const Text: string): string;
 var
-  Words: TStringDynArray;
-  TotalWords, NumSentences: Integer;
+  A: TStringArray;
+  inputStr, word: string;
+  count, NumSentences, i: integer;
   AverageWordsPerSentence: Double;
 begin
-  // Count the total number of words
-  Words := SplitString(Text, [' ']);
-  TotalWords := Length(Words);
+  count := 0;
+  writeln('Input some text: ');
+  readln(inputStr);
+  A := SplitString(inputStr, ' ');
+
+  for word in A do
+  begin
+    count := count + 1;
+  end;
 
   // Count the number of sentences
-  NumSentences := Length(SplitString(Text, ['.', '!', '?']));
+  NumSentences := 0; // Initialize the sentence count
+
+  for i := 1 to Length(inputStr) do
+  begin
+    if inputStr[i] in ['.', '!', '?'] then
+    begin
+      if (i < Length(inputStr)) and (inputStr[i + 1] = ' ') then
+        Inc(NumSentences);
+    end;
+  end;
 
   // Calculate the average number of words per sentence
-  AverageWordsPerSentence := TotalWords / NumSentences;
+  if NumSentences > 0 then
+    AverageWordsPerSentence := count / NumSentences
+  else
+    AverageWordsPerSentence := 0; // Handle division by zero
 
-  Result := Format('Total words: %d' + sLineBreak +
-                   'Average words per sentence: %.2f', [TotalWords, AverageWordsPerSentence]);
+  Result := Format('Average words per sentence: %.2f', [AverageWordsPerSentence]);
 end;
 
 var
-  Text: string;
+  resultStr: string;
 begin
-  // Example usage
-  Text := 'This is a sample sentence. And another one!';
-  WriteLn(CalculateWordStats(Text));
-end.
+  resultStr := CalculateWordStats('');
+  writeln(resultStr);
+  readln;
+end.                         
