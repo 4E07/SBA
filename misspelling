@@ -1,4 +1,4 @@
-program project4;
+program Misspelling;
 
 uses
   SysUtils, StrUtils;
@@ -8,38 +8,25 @@ type
 
 function CheckSpelling(const inputText: string): TStringArray;
 var
-  dictionary: TextFile;
+  dictionary: TStringArray;
   word: string;
   words: TStringArray;
   misspelledWords: TStringArray;
-  dictionaryWord: string;
 begin
-  Assign(dictionary, 'desktop:dictionary.txt'); 
-  Reset(dictionary);
-  SetLength(words, 0);
-  SetLength(misspelledWords, 0);
+  // Define your own dictionary here
+  dictionary := ['apple', 'banana', 'cherry', 'grape', 'orange'];
 
   words := SplitString(inputText, ' ');
+  SetLength(misspelledWords, 0);
 
   for word in words do
   begin
-    Reset(dictionary); 
-
-    while not EOF(dictionary) do
-    begin
-      ReadLn(dictionary, dictionaryWord);
-      if AnsiCompareText(dictionaryWord, word) = 0 then
-        Break;
-    end;
-
-    if EOF(dictionary) then
+    if not (word in dictionary) then
     begin
       SetLength(misspelledWords, Length(misspelledWords) + 1);
       misspelledWords[High(misspelledWords)] := word;
     end;
   end;
-
-  CloseFile(dictionary);
 
   Result := misspelledWords;
 end;
@@ -64,4 +51,4 @@ begin
     Writeln('No spelling mistakes found.');
 
   ReadLn;
-end.                                                     
+end.                                           
