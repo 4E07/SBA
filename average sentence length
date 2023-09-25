@@ -20,8 +20,7 @@ begin
     count := count + 1;
   end;
 
-  // Count the number of sentences
-  NumSentences := 0; // Initialize the sentence count
+  NumSentences := 0; 
 
   for i := 1 to Length(inputStr) do
   begin
@@ -32,12 +31,10 @@ begin
     end;
   end;
 
-  // Calculate the average number of words per sentence
   if NumSentences > 0 then
     AverageWordsPerSentence := count / NumSentences
   else
-    AverageWordsPerSentence := 0; // Handle division by zero
-
+    AverageWordsPerSentence := 0; 
   Result := Format('Average words per sentence: %.2f', [AverageWordsPerSentence]);
 end;
 
