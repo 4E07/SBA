@@ -3,28 +3,50 @@ program Misspelling;
 uses
   SysUtils, StrUtils;
 
-type
-  TStringArray = array of string;
-
-function CheckSpelling(const inputText: string): TStringArray;
 var
-  dictionary: TStringArray;
-  word: string;
+  userInput: string;
   words: TStringArray;
-  misspelledWords: TStringArray;
-begin
-  // Define your own dictionary here
-  dictionary := ['apple', 'banana', 'cherry', 'grape', 'orange'];
+  misspelledWords: array of string;
+  dictionary: array of string;
 
-  words := SplitString(inputText, ' ');
+procedure InitializeDictionary;
+begin
+  SetLength(dictionary, 5);
+  dictionary[0] := 'accommodate';
+  dictionary[1] := 'acquire';
+  dictionary[2] := 'awkward';
+  dictionary[3] := 'believe';
+  dictionary[4] := 'colleague';
+end;
+
+function CheckSpelling(inputText: string): TStringArray;
+var
+  word: string;
+  i: Integer;
+  found: Boolean;
+begin
+  words := SplitString(inputText, ' ,.;:!?');
   SetLength(misspelledWords, 0);
 
   for word in words do
   begin
-    if not (word in dictionary) then
+    found := False;
+    for i := 0 to High(dictionary) do
     begin
-      SetLength(misspelledWords, Length(misspelledWords) + 1);
-      misspelledWords[High(misspelledWords)] := word;
+      if CompareStr(word, dictionary[i]) = 0 then
+      begin
+        found := True;
+        Break;
+      end;
+    end;
+
+    if not found then
+    begin
+      if IndexText(word, misspelledWords) = -1 then
+      begin
+        SetLength(misspelledWords, Length(misspelledWords) + 1);
+        misspelledWords[High(misspelledWords)] := word;
+      end;
     end;
   end;
 
@@ -32,10 +54,11 @@ begin
 end;
 
 var
-  userInput: string;
   misspelled: TStringArray;
   word: string;
 begin
+  InitializeDictionary;
+
   Write('Enter some text: ');
   ReadLn(userInput);
 
@@ -51,4 +74,4 @@ begin
     Writeln('No spelling mistakes found.');
 
   ReadLn;
-end.                                           
+end.                                       
