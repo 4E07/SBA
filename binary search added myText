@@ -1,0 +1,92 @@
+program SpellChecker;
+
+uses
+  SysUtils;
+
+function LinearSearchIsSpellingMistake(word: string; dictionary: array of string): Boolean;
+var
+  i: Integer;
+begin
+  for i := 0 to High(dictionary) do
+  begin
+    if CompareText(word, dictionary[i]) = 0 then
+    begin
+      Result := False; // Word found in the dictionary, no spelling mistake
+      Exit;
+    end;
+  end;
+
+  Result := True; // Word not found in the dictionary, spelling mistake detected
+end;
+
+function BinarySearchIsSpellingMistake(word: string; dictionary: array of string): Boolean;
+var
+  low, high, mid, compareResult: Integer;
+begin
+  low := 0;
+  high := Length(dictionary)-1;
+
+  while low <= high do
+  begin
+    mid := (low + high) div 2;
+    compareResult := CompareText(word, dictionary[mid]);
+
+    if compareResult = 0 then
+    begin
+      Result := False; // Word found in the dictionary, no spelling mistake
+      Exit;
+    end
+    else if compareResult < 0 then
+      high := mid - 1
+    else
+      low := mid + 1;
+  end;
+
+  Result := True; // Word not found in the dictionary, spelling mistake detected
+end;
+
+var
+  passage: string;
+  words: TStringArray;
+  dictionary: array of string;
+  i: Integer;
+  fp: textFile;
+begin
+  // Load the dictionary of correct words
+  assign(fp, 'mytext.txt');  // Assign the file to the text file variable
+  reset(fp);  // Open the file for reading
+
+  i := 0;
+  while not EOF(fp) do
+  begin
+    readln(fp, dictionary[i]); // Read each line into the dictionary array
+    i := i + 1;
+  end;
+
+  close(fp);  // Close the file
+
+  // Read the passage
+  WriteLn('Enter the passage:');
+  ReadLn(passage);
+
+  // Split the passage into words
+  words := passage.Split(' ');
+
+  // Check spelling using linear search
+  WriteLn('Misspelled words (using linear search):');
+  for i := 0 to High(words) do
+  begin
+    if LinearSearchIsSpellingMistake(words[i], dictionary) then
+      WriteLn(words[i]);
+  end;
+
+  // Check spelling using binary search
+  WriteLn('Misspelled words (using binary search):');
+  for i := 0 to High(words) do
+  begin
+    if BinarySearchIsSpellingMistake(words[i], dictionary) then
+      WriteLn(words[i]);
+  end;
+
+  ReadLn;
+end.
