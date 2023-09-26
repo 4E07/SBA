@@ -11,12 +11,7 @@ var
 
 procedure InitializeDictionary;
 begin
-  SetLength(dictionary, 5);
-  dictionary[0] := 'accommodate';
-  dictionary[1] := 'acquire';
-  dictionary[2] := 'awkward';
-  dictionary[3] := 'believe';
-  dictionary[4] := 'colleague';
+  dictionary := ['accommodate', 'acquire', 'awkward', 'believe', 'colleague']; 
 end;
 
 function CheckSpelling(inputText: string): TStringArray;
