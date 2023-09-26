@@ -1,0 +1,42 @@
+program checkingspelling;
+
+uses
+  SysUtils;
+
+function IsSpellingMistake(word: string): Boolean;
+var
+  dictionary: array of string;
+  i: Integer;
+begin
+  // Load the dictionary of correct words
+    dictionary := ['apple','banana','orange'];
+
+  // Check if the word is in the dictionary
+  for i := 0 to High(dictionary) do
+  begin
+    if CompareText(word, dictionary[i]) = 0 then
+    begin
+      // Word found in the dictionary, no spelling mistake
+      Result := False;
+      Exit;
+    end;
+  end;
+
+  // Word not found in the dictionary, spelling mistake detected
+  Result := True;
+end;
+
+var
+  word: string;
+begin
+  Write('Enter a word: ');
+  ReadLn(word);
+
+  if IsSpellingMistake(word) then
+    WriteLn('Spelling mistake detected : ' , word)
+
+  else
+    WriteLn('No spelling mistake detected.');
+
+  ReadLn;
+end.                                 
